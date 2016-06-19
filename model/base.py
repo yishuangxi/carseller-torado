@@ -60,7 +60,7 @@ class BaseModel(object):
     def executemany(self): pass
 
     def now(self):
-        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     #
     # @coroutine
     # def query(self, sql, *args, **kwargs):
