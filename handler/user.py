@@ -6,8 +6,9 @@ class UserPageHandler(BasePageHandler):
     @coroutine
     def get(self):
         user_id = 1
-        user = yield self.user_model.get_user_by_id(user_id)
-        self.write(user[0].username)
+        user = yield self.user_model.find_one_by_id(user_id)
+        # self.write(user[0].username)
+        self.render('pc/index.html')
 
 
 class LoginHandler(BaseApiHandler):

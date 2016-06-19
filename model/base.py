@@ -4,6 +4,7 @@ import asynctorndb
 from tornado.gen import coroutine, Return
 import datetime
 from functools import wraps
+from settings import mysql_settings
 
 class BaseModel(object):
     def __init__(self):
@@ -11,7 +12,7 @@ class BaseModel(object):
 
     @coroutine
     def __get_connection(self):
-        conn = asynctorndb.Connection(host='localhost', database='carseller', user='root', passwd='11111111')
+        conn = asynctorndb.Connection(host=mysql_settings.host, database=mysql_settings.database, user=mysql_settings.user, passwd=mysql_settings.passwd)
         yield conn.connect()
         raise Return(conn)
 
