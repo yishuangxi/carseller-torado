@@ -4,7 +4,7 @@ use carseller;
 
 CREATE TABLE IF NOT EXISTS user (
   id INT(10) unsigned not null auto_increment PRIMARY KEY ,
-  username VARCHAR (20)UNIQUE not NULL ,
+  username VARCHAR (20) UNIQUE not NULL ,
   password VARCHAR(20) NOT NULL ,
   phone CHAR(11) NOT NULL UNIQUE ,
   status INT(1) DEFAULT 1 COMMENT "1激活状态，0是禁用状态",
