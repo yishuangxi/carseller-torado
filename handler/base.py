@@ -1,7 +1,5 @@
 #coding=utf8
 from tornado.web import RequestHandler
-from model.user import UserModel
-from service.user import UserService
 import json
 from datetime import datetime
 from datetime import date
@@ -9,8 +7,6 @@ from datetime import date
 class BaseHandler(RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
-        self.user_model = UserModel()
-        self.user_srv = UserService()
 
 
 class BasePageHandler(BaseHandler):
