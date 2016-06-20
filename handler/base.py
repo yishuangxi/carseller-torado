@@ -3,6 +3,8 @@ from tornado.web import RequestHandler
 import json
 from datetime import datetime
 from datetime import date
+from model.user import UserModel
+from service.user import UserService
 
 class BaseHandler(RequestHandler):
     def __init__(self, *args, **kwargs):
@@ -22,6 +24,9 @@ class BaseApiHandler(BaseHandler):
         self.float      = 'float'
         self.number     = 'number'
 
+        self.user_model = UserModel()
+        self.user_srv = UserService()
+
     def json(self, data):
         return json.loads(self.dumps(data))
 
@@ -30,7 +35,7 @@ class BaseApiHandler(BaseHandler):
 
     def res_success(self, data='', msg=''):
         callback = self.get_argument('callback', False)
-        if callback:
+        if not callback:
             self.write({
                 'code': 0,
                 'msg': msg,

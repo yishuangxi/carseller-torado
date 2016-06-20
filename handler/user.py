@@ -40,7 +40,8 @@ class LoginApiHandler(BaseApiHandler):
     def post(self):
         username = self.get_argument('username')
         password = self.get_argument('password')
-        self.write(username + password)
+        res = yield self.user_model.find_one_by_username_password(username, password)
+        self.res_success(res)
 
 class UserApiHandler(BaseApiHandler):
     @coroutine

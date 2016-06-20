@@ -1,17 +1,11 @@
 #coding=utf8
 from base import BaseModel
 from tornado.gen import coroutine, Return
-from model.user import UserModel
-from service.user import UserService
 
 class UserModel(BaseModel):
-    def __init__(self, *args, **kwargs):
-        super(UserModel, self).__init__(*args, **kwargs)
-        self.user_model = UserModel()
-        self.user_srv = UserService()
     @coroutine
     def find_one_by_id(self, user_id):
-        user = yield self.query('select * from user')
+        user = yield self.get('select * from user where id=%s', user_id)
         raise Return(user)
 
     @coroutine
@@ -22,3 +16,9 @@ class UserModel(BaseModel):
         res = yield self.insert(sql, username, password, phone, status, now, now)
 
         raise Return(res)
+
+    @coroutine
+    def find_one_by_username_password(self, username, password):
+        sql = '''select * from user where username=%s and password=%s'''
+        user = yield self.get(sql, username, password)
+        raise Return(user)

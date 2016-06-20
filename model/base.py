@@ -35,29 +35,47 @@ class BaseModel(object):
             return __
         return _
 
+    @__do_sql_operation('iter')
+    def iter(self): pass
+
     @__do_sql_operation('query')
     def query(self): pass
+
+    @__do_sql_operation('get')
+    def get(self): pass
+
+    @__do_sql_operation('execute')
+    def execute(self): pass
+
+    @__do_sql_operation('execute_lastrowid')
+    def execute_lastrowid(self): pass
+
+    @__do_sql_operation('execute_rowcount')
+    def execute_rowcount(self): pass
+
+    @__do_sql_operation('executemany')
+    def executemany(self): pass
+
+    @__do_sql_operation('executemany_lastrowid')
+    def executemany_lastrowid(self): pass
+
+    @__do_sql_operation('executemany_rowcount')
+    def executemany_rowcount(self): pass
+
+    @__do_sql_operation('update')
+    def update(self): pass
+
+    @__do_sql_operation('delete')
+    def delete(self): pass
+
+    @__do_sql_operation('updatemany')
+    def updatemany(self): pass
 
     @__do_sql_operation('insert')
     def insert(self): pass
 
     @__do_sql_operation('insertmany')
     def insertmany(self): pass
-
-    @__do_sql_operation('update')
-    def update(self): pass
-
-    @__do_sql_operation('updatemany')
-    def updatemany(self): pass
-
-    @__do_sql_operation('delete')
-    def delete(self): pass
-
-    @__do_sql_operation('execute')
-    def execute(self): pass
-
-    @__do_sql_operation('executemany')
-    def executemany(self): pass
 
     def now(self):
         return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
