@@ -1,0 +1,29 @@
+<table class='list' >
+    <thead>
+    <tr>
+        <th width='10%'>选择</th>
+        <th width='70%'>教练信息</th>
+        <th width='20%'>详细</th>
+    </tr>
+    </thead>
+    <tbody id='tab'>
+    <tr style='cursor:hand;'>
+        <td onclick="SelectCoach('9DA23C7A-E3BA-4025-9FC1-1BA63C32D364','何道成','13430765154')">
+            <input type='radio' name='radCoach' id='rad9DA23C7A-E3BA-4025-9FC1-1BA63C32D364'  />
+        </td>
+        <td onclick="SelectCoach('9DA23C7A-E3BA-4025-9FC1-1BA63C32D364','何道成','13430765154')">
+            姓名：何道成<br/>电话：
+            <a href='tel:13430765154'>13430765154</a>
+            <br/>车辆：<br/>
+        <td>
+            <a href='#' id='aShow' onclick="OpenWindow('教练详细信息','CoachDetail.aspx?CoachId=9DA23C7A-E3BA-4025-9FC1-1BA63C32D364',50, 50)">详细</a>
+        </td>
+        </td>
+    </tr>
+    </tbody></table><script language="javascript">
+    test = function (){
+        $('#hdnRecord').html(1);
+        $('#hdnCurrentPage').val(1);
+        $('#hdnTotalPage').html(1);
+    };
+    test() </script>

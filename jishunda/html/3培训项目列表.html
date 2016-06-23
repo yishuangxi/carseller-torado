@@ -1,0 +1,135 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>
+        培训项目列表
+    </title>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <link href="../css/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../Uc/dhtmlxMessage/dhtmlxmessage.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxMessage/skins/dhtmlxmessage_dhx_web.css" /></head>
+<body>
+<form method="post" action="TrainItemList.aspx" id="form1">
+    <div class="aspNetHidden">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTk5NTc0NDc5M2RkDw44ttRbndcoFczeE9eH46qsC1SbyDas64jkXvdVJhQ=" />
+    </div>
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWAgKJqs32BAKa7byuAre+eJnIfL/0xSKu6TT/XUy1tVWq2GRdGDFwXBefku8z" />
+    </div>
+    <div class="table_box" id="divAjaxMsg">
+    </div>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="bg_listPageNum">
+        <tr>
+            <td align="left">
+                共&nbsp;<span class="fontredblod"><label id="hdnRecord">0</label></span>&nbsp;条记录
+            </td>
+            <td align="right">
+                <input type="hidden" name="txtPageSize" id="txtPageSize" value="10" />
+                <img src="../images/arrowpageleftend.gif" id="imgFirst" alt="第一页" onclick="Display('first')" />
+                <img src="../images/arrowpageleft.gif" id="imgPre" alt="上一页" onclick="Display('pre')" />&nbsp;
+                <span id="panPageNumber">1</span>
+                <img src="../images/arrowpageright.gif" id="imgNext" alt="下一页" onclick="Display('next')" />
+                <img src="../images/arrowpagerightend.gif" id="imgLast" alt="最后一页" onclick="Display('last')" />
+                &nbsp;
+                <input type="text" id="txtTo" style="width:20px;display:none" class="inputText" onkeydown=" if(event.keyCode==13) PageGoTo(this.value); " />
+                共&nbsp;<span class="fontredblod"><label id="hdnTotalPage">1</label></span>&nbsp;页
+                <input type="hidden" id="hdnCurrentPage" value="1" />
+                <input type="hidden" id="hdnSortField" value="" />
+                <input type="hidden" id="hdnSortType" value="" />
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript" src="../js/public.js"></script>
+<script type="text/javascript">
+    CallAjax(1);
+
+    function CallAjax(CurrentPage) {
+        var pars = "CurrentPage=" + CurrentPage;
+        pars += "&LoadAjaxData=LoadList";
+        pars += "&id=" + Math.random();
+
+        if ($("#txtPageSize").val().length > 0) {
+            pars += "&pageSize=" + $("#txtPageSize").val();
+        }
+        if ($("#hdnSortField").val().length > 0) {
+            pars += "&SortField=" + $("#hdnSortField").val();
+        }
+        if ($("#hdnSortType").val().length > 0) {
+            pars += "&SortType=" + $("#hdnSortType").val();
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "TrainItemList.aspx",
+            dataType: "html",
+            data: pars,
+            beforeSend: function (XMLHttpRequest) {
+                $("#divAjaxMsg").html("<div align='center'><img src='../images/loading.gif' /></div>");
+            },
+            success: function (msg) {
+                $("#divAjaxMsg").html(msg);
+                SetControl();
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                //隐藏正在查询图片
+            },
+            error: function (msg, url, line)//错误处理
+            {
+                $("#divAjaxMsg").html("提示：加载培训项目信息失败！");
+            }
+        });
+    }
+
+    function SelectTrainItem(trainId, trainName, feesType, price) {
+        $("#rad" + trainId).attr('checked', true);
+
+        if ($("#hidTrainId", window.parent.document)) {
+            $("#hidTrainId", window.parent.document).val(trainId);
+        }
+        if ($("#lblTrainName", window.parent.document)) {
+            $("#lblTrainName", window.parent.document).html(trainName);
+        }
+        if ($("#hidFeesType", window.parent.document)) {
+            $("#hidFeesType", window.parent.document).val(feesType);
+        }
+        if ($("#hidPrice", window.parent.document)) {
+            $("#hidPrice", window.parent.document).val(price);
+        }
+
+        var lblPrice = price + "/";
+        if (feesType == "1") {
+            lblPrice = lblPrice + "次";
+        }
+        else if (feesType == "2") {
+            lblPrice = lblPrice + "小时";
+        }
+        $("#lblPrice", window.parent.document).html(lblPrice);
+
+        $("#hidCoachId", window.parent.document).val("");
+        $("#hidScheduleId", window.parent.document).val("");
+        $("#hidCoachId", window.parent.document).val("");
+        $("#hidCoachName", window.parent.document).val("");
+        $("#lblCoachName", window.parent.document).html("<a href='javascript:void(0)' onclick=\"tabbar.setTabActive('tabCoach');\">[请选择]</a>");
+        $("#lblMobile", window.parent.document).html("");
+        $("#lblCoachName", window.parent.document).html("<a href='javascript:void(0)' onclick=\"tabbar.setTabActive('tabCoach');\">[请选择]</a>");
+        $("#hidTrainTime", window.parent.document).val("");
+        $("#lblBeginTime", window.parent.document).html("");
+        $("#lblEndTime", window.parent.document).html("");
+        $("#lblHours", window.parent.document).html("");
+        $("#lblTrainDate", window.parent.document).html("<a href='javascript:void(0)' onclick=\"tabbar.setTabActive('tabTrainTime');\">[请选择]</a>");
+        $("#lblAmount", window.parent.document).html("");
+
+        window.parent.LoadCoach();
+        window.parent.ShowAmount();
+        window.parent.tabbar.setTabActive('tabCoach');
+    }
+</script>
+</body>
+</html>

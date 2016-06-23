@@ -1,0 +1,36 @@
+<table class='list' >
+    <thead>
+    <tr>
+        <th width='10%'>选择</th>
+        <th width='20%'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;辖区<br/>
+            <select id='dropArea' onchange='CallAjax(1);'>
+                <option value='-1'>[全部]</option><option value='福田'>福田</option>
+                <option value='龙华'>龙华</option><option value='光明'>光明</option>
+                <option value='罗湖'>罗湖</option><option value='宝安'>宝安</option>
+                <option value='龙岗'>龙岗</option>
+                <option value='南山'>南山</option>
+                <option value='盐田'>盐田</option>
+                <option value='平山新区'>平山新区</option>
+            </select>
+        </th>
+        <th width='55%'>训练场名称</th>
+        <th width='15%'>详细</th>
+    </tr>
+    </thead>
+    <tbody id='tab'>
+    <tr style='cursor:hand;'>
+        <td onclick="SelectEduSite('2F7FF2A1-C46D-446D-9793-140BBA157DFB','西乡')">
+            <input type='radio' name='radEduSite' id='rad2F7FF2A1-C46D-446D-9793-140BBA157DFB' />
+        </td>
+        <td onclick="SelectEduSite('2F7FF2A1-C46D-446D-9793-140BBA157DFB','西乡')">宝安</td><
+        td onclick="SelectEduSite('2F7FF2A1-C46D-446D-9793-140BBA157DFB','西乡')">西乡</td>
+        <td><a href='#' id='aShow' onclick="OpenWindow('训练场详细信息','EduSiteDetail.aspx?EduSiteId=2F7FF2A1-C46D-446D-9793-140BBA157DFB',50, 50)">详细</a></td>
+    </tr></tbody>
+</table><script language="javascript">
+    test = function (){
+        $('#hdnRecord').html(1);
+        $('#hdnCurrentPage').val(1);
+        $('#hdnTotalPage').html(1);
+    };
+    test() </script>
+

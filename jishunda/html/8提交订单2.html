@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>
+	我要约车
+</title>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <link href="../css/style.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" type="text/css" href="../Uc/dhtmlxTabbar/dhtmlxtabbar.css" />
+    <script type="text/javascript" src="../Uc/dhtmlxTabbar/dhtmlxcommon.js"></script>
+    <script type="text/javascript" src="../Uc/dhtmlxTabbar/dhtmlxtabbar.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxLayout/dhtmlxlayout.css" /><link rel="stylesheet" type="text/css" href="../Uc/dhtmlxLayout/skins/dhtmlxlayout_dhx_skyblue.css" />
+    <script type="text/javascript" src="../Uc/dhtmlxLayout/dhtmlxlayout.js"></script>
+    <script type="text/javascript" src="../Uc/dhtmlxLayout/dhtmlxcontainer.js"></script>
+    <script type="text/javascript" src="../Uc/dhtmlxMessage/dhtmlxmessage.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxMessage/skins/dhtmlxmessage_dhx_web.css" />
+    <script type="text/javascript">
+        function checkInfo() {
+            if ($("#hidEduSiteId").val()=="") {
+                dhtmlx.message({ text: "提示：请选择训练场", expire: 4000 })
+                tabbar.setTabActive("tabEduSite");
+                return false;
+            }
+            if ($("#hidTrainId").val() == "") {
+                dhtmlx.message({ text: "提示：请选择培训项目", expire: 4000 })
+                tabbar.setTabActive("tabTrainItem");
+                return false;
+            }
+            if ($("#hidCoachId").val() == "") {
+                dhtmlx.message({ text: "提示：请选择教练", expire: 4000 })
+                tabbar.setTabActive("tabCoach");
+                return false;
+            }
+            if ($("#hidScheduleId").val() == "") {
+                dhtmlx.message({ text: "提示：请选择时段", expire: 4000 })
+                tabbar.setTabActive("tabTrainTime");
+                return false;
+            }
+            var arrIds = $("#hidScheduleId").val().replace("；", ",").split(",");
+            if(arrIds.length<=1)
+            {
+                dhtmlx.message({ text: "提示：预约时长不能小于1小时", expire: 4000 })
+                tabbar.setTabActive("tabTrainTime");
+                return false;
+            }
+            if (!confirm("提示：您确定无误要提交此订单吗？")) return false;
+
+            $("#hidEduSiteName").val($("#lblEduSiteName").html());
+            $("#hidTrainName").val($("#lblTrainName").html());
+            $("#hidCoachName").val($("#lblCoachName").html());
+            $("#hidTrainTime").val($("#lblTrainDate").html() + " " + $("#lblBeginTime").html() + "-" + $("#lblEndTime").html());
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <form method="post" action="AddOrder.aspx" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE1MTc1Njc5MzJkZBLtAqFGVYBX8PpCxXSD9dgCj0ULY0Frt8UC67AEmCle" />
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWDQKhtd7OAQKP0OeuBgK9mbPjAwKA+7SWBAKi2b28AgLlicSCDgL5h+3dBgKct7iSDAL4p/7IAgKJ3pHHDQLypMGrDQKP3rHHDQKv3bT4B3TecrEr7N9zqQLRg6tPiujiY1D96Dr+GFOgDcvhVgep" />
+</div>
+    <div id="divContent" style="width:100%;height:100%"></div>
+    <div id="divOrder">
+        <table class="tbCss" cellspacing="0" cellpadding="0" border="0">
+            <tr class="gdHeader">
+                <th align="left">
+                    您的订单
+                </th>
+                <th align="right">
+                    <input type="hidden" name="hidEduSiteId" id="hidEduSiteId" />
+                    <input type="hidden" name="hidTrainId" id="hidTrainId" />
+                    <input type="hidden" name="hidCoachId" id="hidCoachId" />
+                    <input type="hidden" name="hidScheduleId" id="hidScheduleId" />
+
+                    <input type="hidden" name="hidFeesType" id="hidFeesType" />
+                    <input type="hidden" name="hidPrice" id="hidPrice" />
+
+                    <img src="../images/refresh.png" onclick="location.reload()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" name="btnSave" value="提交" onclick="return checkInfo();" id="btnSave" class="btn1" />
+                    
+                </th>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-left:5px">
+                    <table>
+                        <tr>
+                            <td>
+                                训&nbsp;&nbsp;练&nbsp;&nbsp;场:
+                            </td>
+                            <td>
+                                <input type="hidden" name="hidEduSiteName" id="hidEduSiteName" />
+                                <span id="lblEduSiteName"><a href="javascript:void(0)" onclick="tabbar.setTabActive('tabEduSite');">[请选择]</a></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                培训项目:
+                            </td>
+                            <td>
+                                <input type="hidden" name="hidTrainName" id="hidTrainName" />
+                                <span id="lblTrainName"><a href="javascript:void(0)" onclick="tabbar.setTabActive('tabTrainItem');">[请选择]</a></span>&nbsp;&nbsp;&nbsp;
+                                <span id="lblPrice"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                选择教练:
+                            </td>
+                            <td>
+                                <input type="hidden" name="hidCoachName" id="hidCoachName" />
+                                <span id="lblCoachName"><a href="javascript:void(0)" onclick="tabbar.setTabActive('tabCoach');">[请选择]</a></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话：<a href="tel:" id="aMobile"><span id="lblMobile"></span></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                培训时间:
+                            </td>
+                            <td>
+                                <input type="hidden" name="hidTrainTime" id="hidTrainTime" />
+                                <span id="lblTrainDate"><a href="javascript:void(0)" onclick="tabbar.setTabActive('tabTrainTime');">[请选择]</a></span>&nbsp;&nbsp;
+                                <span id="lblBeginTime"></span>-<span id="lblEndTime"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span id="lblHours"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                订单金额：
+                            </td>
+                            <td>
+                                <span id="lblAmount">0.0</span>
+                                <input type="hidden" name="hidOrderMinMinute" id="hidOrderMinMinute" value="60" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <iframe id="frmEduSite" src="EduSiteList.aspx?eduSiteId=2F7FF2A1-C46D-446D-9793-140BBA157DFB" scrolling="no" width="100%" height="100%" frameborder="0" >
+    </iframe>
+    <iframe id="frmTrainItem" src="TrainItemList.aspx" scrolling="no" width="100%" height="100%" frameborder="0" >
+    </iframe>
+    <iframe id="frmCoach" src="CoachList.aspx?coachId=9DA23C7A-E3BA-4025-9FC1-1BA63C32D364" scrolling="no" width="100%" height="100%" frameborder="0" >
+    </iframe>
+    <iframe id="frmTrainTime" src="ScheduleList.aspx" scrolling="no" width="100%" height="100%" frameborder="0" >
+    </iframe>
+    </form>
+    <script type="text/javascript">
+        var dhxLayout;
+        var tabbar;
+        LoadLayout();
+        function LoadLayout() {
+            dhxLayout = new dhtmlXLayoutObject(document.getElementById("divContent"), "2E");
+            dhxLayout.setAutoSize("", "a");
+            dhxLayout.cells("a").hideHeader();
+            dhxLayout.cells("a").vs[dhxLayout.cells("a").av].dhxcont.style.border = "none"; //不要边框
+            dhxLayout.cells("a").vs[dhxLayout.cells("a").av].dhxcont.style.backgroundColor = "#c6e5f8";
+            tabbar = dhxLayout.cells("a").attachTabbar();
+            dhxLayout.cells("b").hideHeader();
+            dhxLayout.cells("b").attachObject("divOrder");
+            dhxLayout.cells("b").vs[dhxLayout.cells("b").av].dhxcont.style.border = "none"; //不要边框
+            dhxLayout.cells("b").vs[dhxLayout.cells("b").av].dhxcont.style.backgroundColor = "#c6e5f8";
+            dhxLayout.cells("b").setHeight(130);
+        }
+        $(window).resize(function () { dhxLayout.setSizes(); });
+
+        tabbar.setAlign("top");
+        tabbar.setSkin('dark_blue');
+        tabbar.setImagePath("../Uc/dhtmlxTabbar/imgs/");
+        tabbar.addTab("tabEduSite", "①训练场→", "90px");
+        tabbar.addTab("tabTrainItem", "②项目→", "80px");
+        tabbar.addTab("tabCoach", "③教练→", "80px");
+        tabbar.addTab("tabTrainTime", "④时段", "80px");
+        tabbar.setContent("tabEduSite", "frmEduSite");
+        tabbar.setContent("tabTrainItem", "frmTrainItem");
+        tabbar.setContent("tabCoach", "frmCoach");
+        tabbar.setContent("tabTrainTime", "frmTrainTime");
+        tabbar.enableAutoReSize(true);
+        tabbar.setCustomStyle("tabEduSite", "#f4f100", "White", "font-size:16px;");
+        tabbar.setCustomStyle("tabTrainItem", "#f4f100", "White", "font-size:16px;");
+        tabbar.setCustomStyle("tabCoach", "#f4f100", "White", "font-size:16px;");
+        tabbar.setCustomStyle("tabTrainTime", "#f4f100", "White", "font-size:16px;");
+        tabbar.setTabActive("tabEduSite");
+
+    </script>
+    <script type="text/javascript">
+        //加载教练
+        function LoadCoach() {
+            if ($("#hidEduSiteId").val() != "" && $("#hidTrainId").val() != "") {
+                $("#frmCoach").contents().find("#hidEduSiteId").val($("#hidEduSiteId").val());      //遇到兼容型问题时，最好使用Id来获取元素
+                $("#frmCoach").contents().find("#hidTrainId").val($("#hidTrainId").val());               
+//                    $("#hidEduSiteId", window.frames["frmCoach"].document).val($("#hidEduSiteId").val())      
+//                    $("#hidTrainId", window.frames["frmCoach"].document).val($("#hidTrainId").val())
+                    try {
+                        $("#frmCoach")[0].contentWindow.CallAjax(1); 
+//                        window.frames["frmCoach"].CallAjax('1');
+                    } catch (e) {                    
+                    }
+            }
+        }
+
+        //计算金额
+        function ShowAmount() {
+            if($("#hidScheduleId").val()=="" || $("#hidFeesType").val()=="" || $("#hidPrice").val()=="")
+            {
+                $("#lblAmount").html("0.0");
+                $("#lblHours").html("");
+            }
+            else {
+                var FeesCount = $("#hidScheduleId").val().split(',').length;
+                if ($("#hidOrderMinMinute").val() == "30") {
+                    FeesCount = FeesCount / 2.0;
+                }
+                else {
+                    FeesCount = FeesCount / 1.0;
+                }
+                $("#lblHours").html(FeesCount + '小时');
+
+                if($("#hidFeesType").val() == "1") {
+                    $("#lblAmount").html($("#hidPrice").val());
+                }
+                else if($("#hidFeesType").val() == "2")
+                {
+                    $("#lblAmount").html($("#hidPrice").val() * FeesCount);
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        IsStuMustPj();
+        //判断学员是否完成所有评价(未评价不能约车)
+        function IsStuMustPj() {
+            var pars = "LoadAjaxData=IsStuMustPj";
+            pars += "&id=" + Math.random();
+
+            $.ajax({
+                type: "GET",
+                url: "AddOrder.aspx",
+                dataType: "text",
+                data: pars,
+                success: function (result) {
+                    //0有未完成评价订单;1允许约车;
+                    if (result == "0") {
+                        alert("提示：您有未完成评价的订单，请完成评价后约车。")
+                        history.go(-1);
+                    } else if (result == "-1") {
+                        alert("提示：还没有到约车时间。")
+                        history.go(-1);
+                    }
+                },
+                error: function (msg, url, line)//错误处理
+                {
+
+                }
+            });
+        }
+    </script>
+</body>
+</html>

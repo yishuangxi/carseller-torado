@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>
+        选择时段
+    </title>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <link href="../css/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../Uc/dhtmlxLayout/dhtmlxcommon.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxLayout/dhtmlxlayout.css" /><link rel="stylesheet" type="text/css" href="../Uc/dhtmlxLayout/skins/dhtmlxlayout_dhx_skyblue.css" />
+    <script type="text/javascript" src="../Uc/dhtmlxLayout/dhtmlxlayout.js"></script>
+    <script type="text/javascript" src="../Uc/dhtmlxLayout/dhtmlxcontainer.js"></script>
+    <script type="text/javascript" src="../Uc/dhtmlxMessage/dhtmlxmessage.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxMessage/skins/dhtmlxmessage_dhx_web.css" /></head>
+<body>
+<form method="post" action="ScheduleList.aspx" id="form1">
+    <div class="aspNetHidden">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJMTY3ODYyMjY5ZGTULCTtVPp4KxkSRyt1R4cFbgbdD8NJiE9XA03xpiT1wQ==" />
+    </div>
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWBgKEnuTsCwKA+7SWBAKY2MGKCwK2+YaFAQLGn7aCBgKH49qDDCjNMYdWaAp+cv752upgactA1kC46ElTAVRF2H7mslec" />
+    </div>
+    <div id="divDate" style="overflow:auto;height:100%;">
+
+    </div>
+    <div id="divTime" style="overflow:auto;height:100%;">
+
+
+    </div>
+    <input type="hidden" name="hidCoachId" id="hidCoachId" />
+    <input type="hidden" name="hidBeginTime" id="hidBeginTime" />
+    <input type="hidden" name="hidEndTime" id="hidEndTime" />
+    <input type="hidden" name="hidBeginSerial" id="hidBeginSerial" />
+    <input type="hidden" name="hidEndSerial" id="hidEndSerial" />
+</form>
+<script type="text/javascript">
+    var dhxLayout;
+    LoadLayout();
+    function LoadLayout() {
+        dhxLayout = new dhtmlXLayoutObject(document.body, "2E");
+        dhxLayout.setAutoSize("", "a");
+        dhxLayout.cells("a").hideHeader();
+        dhxLayout.cells("a").attachObject("divDate");
+        dhxLayout.cells("a").vs[dhxLayout.cells("a").av].dhxcont.style.border = "none"; //不要边框
+        dhxLayout.cells("a").vs[dhxLayout.cells("a").av].dhxcont.style.backgroundColor = "#c6e5f8";
+        dhxLayout.cells("b").hideHeader();
+        dhxLayout.cells("b").attachObject("divTime");
+        dhxLayout.cells("b").vs[dhxLayout.cells("b").av].dhxcont.style.border = "none"; //不要边框
+        dhxLayout.cells("b").vs[dhxLayout.cells("b").av].dhxcont.style.backgroundColor = "#c6e5f8";
+        //dhxLayout.cells("b").setHeight(130);
+    }
+    $(window).resize(function () { dhxLayout.setSizes(); });
+</script>
+<script type="text/javascript">
+    function SelectDate(date, id) {
+        $("#divDate div.divActive").removeClass("divActive").addClass("divInvalid");
+        //$("div.divActive").removeClass("divActive").addClass("divInvalid");
+        $("#" + id).removeClass("divInvalid").addClass("divActive");
+
+        if ($("#lblTrainDate", window.parent.document)) {
+            $("#lblTrainDate", window.parent.document).html(date);
+        }
+        if ($("#lblBeginTime", window.parent.document)) {
+            $("#lblBeginTime", window.parent.document).html("");
+        }
+        if ($("#lblEndTime", window.parent.document)) {
+            $("#lblEndTime", window.parent.document).html("");
+        }
+        $("#hidScheduleId", window.parent.document).val("");
+        $("#hidTrainTime", window.parent.document).val("");
+        $("#lblAmount", window.parent.document).html("");
+
+        LoadTime($("#hidCoachId").val(), date);
+    }
+
+    function LoadDate(coachId) {
+        var pars = "&LoadAjaxData=LoadDate";
+        pars += "&coachId=" + coachId;
+        pars += "&id=" + Math.random();
+
+        $("#divTime").html("");
+        $("#lblTrainDate", window.parent.document).html("<a href='javascript:void(0)' onclick=\"tabbar.setTabActive('tabTrainTime');\">[请选择]</a>");
+        $("#lblBeginTime", window.parent.document).html("");
+        $("#lblEndTime", window.parent.document).html("");
+        $("#lblHours", window.parent.document).html("");
+        $("#hidScheduleId", window.parent.document).val("");
+
+        $("#hidCoachId").val(coachId);
+
+        $.ajax({
+            type: "GET",
+            url: "ScheduleList.aspx",
+            dataType: "html",
+            data: pars,
+            beforeSend: function (XMLHttpRequest) {
+                $("#divDate").html("<div align='center'><img src='../images/loading.gif' /></div>");
+            },
+            success: function (msg) {
+                $("#divDate").html(msg);
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                //隐藏正在查询图片
+            },
+            error: function (msg, url, line)//错误处理
+            {
+                $("#divDate").html("提示：加载日期失败");
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function SelectTime(serial, id) {
+        if ($("#chk" + serial).attr("checked")=="checked") {
+            $("#divTime" + serial).removeClass("divActive").addClass("divInvalid");
+            $("#chk" + serial).attr('checked', false);
+        }
+        else {
+            $("#divTime" + serial).removeClass("divInvalid").addClass("divActive");
+            $("#chk" + serial).attr('checked', true);
+        }
+
+        var isValid = true;//选择时段是否有效
+        var chkObj = document.getElementsByName("chkTime");
+
+        //判断时段是否连续
+        var prouTime = "";
+        var nextTime = "";
+        var obId = "";
+        for (i = 0; i < chkObj.length; i++) {
+            if (chkObj[i].checked == true) {
+                obId = chkObj[i].id.substr(3);
+                if (prouTime == "") {
+                    prouTime = $("#span" + obId).html();
+                    continue;
+                }
+                nextTime = $("#span" + obId).html();
+                if (prouTime.substr(6) != nextTime.substr(0, 5)) {
+                    dhtmlx.message({ text: "提示：时段不连续，选择无效！", expire: 4000 })
+                    isValid = false;
+                    break;
+                }
+                prouTime = nextTime;
+            }
+        }
+
+        //时段无效
+        if (!isValid) {
+            if ($("#chk" + serial).attr("checked") == "checked") {
+                $("#divTime" + serial).removeClass("divActive").addClass("divInvalid");
+                $("#chk" + serial).attr('checked', false);
+            }
+            else {
+                $("#divTime" + serial).removeClass("divInvalid").addClass("divActive");
+                $("#chk" + serial).attr('checked', true);
+            }
+        }
+
+        var ids = "";
+        var isFirst = 0;
+        $("#lblBeginTime", window.parent.document).html("");
+        $("#lblEndTime", window.parent.document).html("");
+        for (i = 0; i < chkObj.length; i++) {
+            if (chkObj[i].checked == true) {
+                ids += chkObj[i].value + ",";
+                obId = chkObj[i].id.substr(3);
+                if (isFirst == 0) {
+                    $("#lblBeginTime", window.parent.document).html($("#span" + obId).html().substr(0, 5));
+                    $("#lblEndTime", window.parent.document).html($("#span" + obId).html().substr(6));
+                }
+                else {
+                    $("#lblEndTime", window.parent.document).html($("#span" + obId).html().substr(6));
+                }
+                isFirst += 1;
+            }
+        }
+        if (ids.length != 0) {
+            ids = ids.substring(0, ids.length - 1);
+        }
+        $("#hidScheduleId", window.parent.document).val(ids);
+        window.parent.ShowAmount();
+    }
+
+    function LoadTime(coachId, date) {
+        var pars = "&LoadAjaxData=LoadTime";
+        pars += "&coachId=" + coachId;
+        pars += "&date=" + date;
+        pars += "&id=" + Math.random();
+
+        $.ajax({
+            type: "GET",
+            url: "ScheduleList.aspx",
+            dataType: "html",
+            data: pars,
+            beforeSend: function (XMLHttpRequest) {
+                $("#divTime").html("<div align='center'><img src='../images/loading.gif' /></div>");
+            },
+            success: function (msg) {
+                $("#divTime").html(msg);
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                //隐藏正在查询图片
+            },
+            error: function (msg, url, line)//错误处理
+            {
+                $("#divTime").html("提示：加载时段失败");
+            }
+        });
+    }
+</script>
+</body>
+</html>

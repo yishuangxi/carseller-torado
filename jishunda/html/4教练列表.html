@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head id="Head1">
+            <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+            <title>
+                教练列表
+            </title>
+            <script type="text/javascript" src="../js/jquery.js"></script>
+            <link href="../css/style.css" type="text/css" rel="stylesheet" />
+
+            <script type="text/javascript" src="../Uc/dhtmlxWindows/dhtmlxcommon.js"></script>
+            <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxWindows/dhtmlxwindows.css" /><link rel="stylesheet" type="text/css" href="../Uc/dhtmlxWindows/skins/dhtmlxwindows_dhx_skyblue.css" />
+            <script type="text/javascript" src="../Uc/dhtmlxWindows/dhtmlxwindows.js"></script>
+            <script type="text/javascript" src="../Uc/dhtmlxWindows/dhtmlxcontainer.js"></script>
+
+            <script type="text/javascript" src="../Uc/dhtmlxMessage/dhtmlxmessage.js"></script>
+            <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxMessage/skins/dhtmlxmessage_dhx_web.css" /></head>
+<body>
+<form method="post" action="CoachList.aspx?coachId=9DA23C7A-E3BA-4025-9FC1-1BA63C32D364" id="form1">
+    <div class="aspNetHidden">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTExOTQxODI5ODdkZEbcqw2LxS7ac349fGgfF0r/teoOIseiGID6LTdzCqUX" />
+    </div>
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWBQKZ+Y7KBAKK2+CoAgKa7byuAgKP0OeuBgK9mbPjA3hvANzYqKGmf+DS9DzoXssFv2KRnnupOsIemulhnnWl" />
+    </div>
+    <div class="table_box" id="divAjaxMsg">
+        [请先选择训练场及项目]
+    </div>
+    <input type="hidden" name="hdnCoachId" id="hdnCoachId" value="9DA23C7A-E3BA-4025-9FC1-1BA63C32D364" />
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="bg_listPageNum">
+        <tr>
+            <td align="left">
+                共&nbsp;<span class="fontredblod"><label id="hdnRecord">0</label></span>&nbsp;条记录
+            </td>
+            <td align="right">
+                <input type="hidden" name="txtPageSize" id="txtPageSize" value="10" />
+                <img src="../images/arrowpageleftend.gif" id="imgFirst" alt="第一页" onclick="Display('first')" />
+                <img src="../images/arrowpageleft.gif" id="imgPre" alt="上一页" onclick="Display('pre')" />&nbsp;
+                <span id="panPageNumber">1</span>
+                <img src="../images/arrowpageright.gif" id="imgNext" alt="下一页" onclick="Display('next')" />
+                <img src="../images/arrowpagerightend.gif" id="imgLast" alt="最后一页" onclick="Display('last')" />
+                &nbsp;
+                <input type="text" id="txtTo" style="width:20px;display:none" class="inputText" onkeydown=" if(event.keyCode==13) PageGoTo(this.value); " />
+                共&nbsp;<span class="fontredblod"><label id="hdnTotalPage">1</label></span>&nbsp;页
+                <input type="hidden" id="hdnCurrentPage" value="1" />
+                <input type="hidden" id="hdnSortField" value="" />
+                <input type="hidden" id="hdnSortType" value="" />
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="hidEduSiteId" id="hidEduSiteId" />
+    <input type="hidden" name="hidTrainId" id="hidTrainId" />
+</form>
+<script type="text/javascript" src="../js/public.js"></script>
+<script type="text/javascript">
+    function CallAjax(CurrentPage) {
+        var pars = "CurrentPage=" + CurrentPage;
+        pars += "&LoadAjaxData=LoadList";
+        pars += "&eduSiteId=" + $("#hidEduSiteId").val();
+        pars += "&trainId=" + $("#hidTrainId").val();
+        pars += "&coachId=" + $("#hdnCoachId").val();
+        pars += "&id=" + Math.random();
+
+        if ($("#txtPageSize").val().length > 0) {
+            pars += "&pageSize=" + $("#txtPageSize").val();
+        }
+        if ($("#hdnSortField").val().length > 0) {
+            pars += "&SortField=" + $("#hdnSortField").val();
+        }
+        if ($("#hdnSortType").val().length > 0) {
+            pars += "&SortType=" + $("#hdnSortType").val();
+        }
+        $.ajax({
+            type: "GET",
+            url: "CoachList.aspx",
+            dataType: "html",
+            data: pars,
+            beforeSend: function (XMLHttpRequest) {
+                $("#divAjaxMsg").html("<div align='center'><img src='../images/loading.gif' /></div>");
+            },
+            success: function (msg) {
+                $("#divAjaxMsg").html(msg);
+                SetControl();
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                //隐藏正在查询图片
+            },
+            error: function (msg, url, line)//错误处理
+            {
+                $("#divAjaxMsg").html("提示：加载教练信息失败！");
+            }
+        });
+    }
+
+    function SelectCoach(coachId, coachName,mobile) {
+        $("#rad" + coachId).attr('checked', true);
+        if ($("#hidCoachId", window.parent.document)) {
+            $("#hidCoachId", window.parent.document).val(coachId);
+        }
+        if ($("#lblCoachName", window.parent.document)) {
+            $("#lblCoachName", window.parent.document).html(coachName);
+        }
+        if ($("#lblMobile", window.parent.document)) {
+            $("#lblMobile", window.parent.document).html(mobile);
+        }
+        if ($("#aMobile", window.parent.document)) {
+            $("#aMobile", window.parent.document).attr("href", "tel:" + mobile);
+        }
+
+        $("#hidScheduleId", window.parent.document).val("");
+        $("#hidTrainTime", window.parent.document).val("");
+        $("#lblBeginTime", window.parent.document).html("");
+        $("#lblEndTime", window.parent.document).html("");
+        $("#lblHours", window.parent.document).html("");
+        $("#lblTrainDate", window.parent.document).html("<a href='javascript:void(0)' onclick=\"tabbar.setTabActive('tabTrainTime');\">[请选择]</a>");
+        $("#lblAmount", window.parent.document).html("");
+
+//            window.parent.window.frames["frmTrainTime"].LoadDate(coachId);
+        window.parent.document.getElementById("frmTrainTime").contentWindow.LoadDate(coachId);
+        window.parent.tabbar.setTabActive('tabTrainTime');
+    }
+</script>
+<script type="text/javascript">
+    var wWin;
+    function OpenWindow(title, url, iWidth, iHeight) {
+        if (document.body.clientHeight < iHeight) {
+            iHeight = document.body.clientHeight;
+        }
+        var dhxWins = new dhtmlXWindows();
+        dhxWins.enableAutoViewport(true);
+        dhxWins.setSkin("dhx_skyblue");
+        dhxWins.setImagePath("../Uc/dhtmlxWindows/imgs/");
+        wWin = dhxWins.createWindow("wWin", 0, 0, iWidth, iHeight);
+        wWin.setModal(true);
+        wWin.center(); //居中显示
+        wWin.setText(title);
+        wWin.denyPark();
+        wWin.button("park").hide();
+        wWin.button("minmax1").hide();
+        wWin.button("minmax2").hide();
+        wWin.button("close").show();
+        wWin.maximize();
+        wWin.attachURL(url);
+    }
+</script>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>

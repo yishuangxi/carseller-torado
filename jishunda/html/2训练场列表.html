@@ -1,0 +1,139 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>
+        训练场列表
+    </title>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <link href="../css/style.css" type="text/css" rel="stylesheet" />
+
+    <script type="text/javascript" src="../Uc/dhtmlxWindows/dhtmlxcommon.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxWindows/dhtmlxwindows.css" /><link rel="stylesheet" type="text/css" href="../Uc/dhtmlxWindows/skins/dhtmlxwindows_dhx_skyblue.css" />
+    <script type="text/javascript" src="../Uc/dhtmlxWindows/dhtmlxwindows.js"></script>
+    <script type="text/javascript" src="../Uc/dhtmlxWindows/dhtmlxcontainer.js"></script>
+
+    <script type="text/javascript" src="../Uc/dhtmlxMessage/dhtmlxmessage.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Uc/dhtmlxMessage/skins/dhtmlxmessage_dhx_web.css" /></head>
+<body>
+<form method="post" action="EduSiteList.aspx?eduSiteId=2F7FF2A1-C46D-446D-9793-140BBA157DFB" id="form1">
+    <div class="aspNetHidden">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTQ5MTgwNTg4MmRkyxBSvskhKb0Or3Pvm1UMwU4gJQmon0kizo07y3FrfQc=" />
+    </div>
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWAwKFi/ryDQLZsqP+BQKa7byuAouoixRRLZN8vVxifrt0CfuC8TLK9gYoMNHGhOX8tbT3" />
+    </div>
+    <div class="table_box" id="divAjaxMsg">
+    </div>
+    <input type="hidden" name="hdnEduSiteId" id="hdnEduSiteId" value="2F7FF2A1-C46D-446D-9793-140BBA157DFB" />
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="bg_listPageNum">
+        <tr>
+            <td align="left">
+                共&nbsp;<span class="fontredblod"><label id="hdnRecord">0</label></span>&nbsp;条记录
+            </td>
+            <td align="right">
+                <input type="hidden" name="txtPageSize" id="txtPageSize" value="10" />
+                <img src="../images/arrowpageleftend.gif" id="imgFirst" alt="第一页" onclick="Display('first')" />
+                <img src="../images/arrowpageleft.gif" id="imgPre" alt="上一页" onclick="Display('pre')" />&nbsp;
+                <span id="panPageNumber">1</span>
+                <img src="../images/arrowpageright.gif" id="imgNext" alt="下一页" onclick="Display('next')" />
+                <img src="../images/arrowpagerightend.gif" id="imgLast" alt="最后一页" onclick="Display('last')" />
+                &nbsp;
+                <input type="text" id="txtTo" style="width:20px;display:none" class="inputText" onkeydown=" if(event.keyCode==13) PageGoTo(this.value); " />
+                共&nbsp;<span class="fontredblod"><label id="hdnTotalPage">1</label></span>&nbsp;页
+                <input type="hidden" id="hdnCurrentPage" value="1" />
+                <input type="hidden" id="hdnSortField" value="" />
+                <input type="hidden" id="hdnSortType" value="" />
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript" src="../js/public.js"></script>
+<script type="text/javascript">
+    CallAjax(1);
+
+    function CallAjax(CurrentPage) {
+        var pars = "CurrentPage=" + CurrentPage;
+        pars += "&LoadAjaxData=LoadList";
+        pars += "&id=" + Math.random();
+        pars += "&eduSiteId=" + $("#hdnEduSiteId").val();
+
+        if (document.getElementById("dropArea") != null) {
+            if ($("#dropArea").val() != "-1") {
+                pars += "&area=" + escape($("#dropArea").val());
+            }
+        }
+        if ($("#txtPageSize").val().length > 0) {
+            pars += "&pageSize=" + $("#txtPageSize").val();
+        }
+        if ($("#hdnSortField").val().length > 0) {
+            pars += "&SortField=" + $("#hdnSortField").val();
+        }
+        if ($("#hdnSortType").val().length > 0) {
+            pars += "&SortType=" + $("#hdnSortType").val();
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "EduSiteList.aspx",
+            dataType: "html",
+            data: pars,
+            beforeSend: function (XMLHttpRequest) {
+                $("#divAjaxMsg").html("<div align='center'><img src='../images/loading.gif' /></div>");
+            },
+            success: function (msg) {
+                $("#divAjaxMsg").html(msg);
+                SetControl();
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                //隐藏正在查询图片
+            },
+            error: function (msg, url, line)//错误处理
+            {
+                $("#divAjaxMsg").html("提示：加载训练场信息失败！");
+            }
+        });
+    }
+
+    function SelectEduSite(eduSiteId, eduSiteName) {
+        $("#rad" + eduSiteId).attr('checked', true);
+        if ($("#hidEduSiteId", window.parent.document)) {
+            $("#hidEduSiteId", window.parent.document).val(eduSiteId);
+        }
+        if ($("#lblEduSiteName", window.parent.document)) {
+            $("#lblEduSiteName", window.parent.document).html(eduSiteName);
+        }
+        window.parent.LoadCoach();
+        window.parent.tabbar.setTabActive('tabTrainItem');
+    }
+</script>
+<script type="text/javascript">
+    var wWin;
+    function OpenWindow(title, url, iWidth, iHeight) {
+        if (document.body.clientHeight < iHeight) {
+            iHeight = document.body.clientHeight;
+        }
+        var dhxWins = new dhtmlXWindows();
+        dhxWins.enableAutoViewport(true);
+        dhxWins.setSkin("dhx_skyblue");
+        dhxWins.setImagePath("../Uc/dhtmlxWindows/imgs/");
+        wWin = dhxWins.createWindow("wWin", 0, 0, iWidth, iHeight);
+        wWin.setModal(true);
+        wWin.center(); //居中显示
+        wWin.setText(title);
+        wWin.denyPark();
+        wWin.button("park").hide();
+        wWin.button("minmax1").hide();
+        wWin.button("minmax2").hide();
+        wWin.button("close").show();
+        wWin.maximize();
+        wWin.attachURL(url);
+    }
+</script>
+</body>
+</html>
