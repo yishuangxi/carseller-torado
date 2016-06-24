@@ -1,0 +1,32 @@
+
+
+hidEduSiteId
+hidTrainId
+hidCoachId
+hidScheduleId
+hidFeesType
+hidPrice
+btnSave
+hidEduSiteName
+hidTrainName
+hidCoachName
+hidTrainTime
+hidOrderMinMinute
+
+data = {
+    '__VIEWSTATE':'/wEPDwULLTE1MTc1Njc5MzJkZBLtAqFGVYBX8PpCxXSD9dgCj0ULY0Frt8UC67AEmCle',
+    '__EVENTVALIDATION': '/wEWDQKhtd7OAQKP0OeuBgK9mbPjAwKA+7SWBAKi2b28AgLlicSCDgL5h+3dBgKct7iSDAL4p/7IAgKJ3pHHDQLypMGrDQKP3rHHDQKv3bT4B3TecrEr7N9zqQLRg6tPiujiY1D96Dr+GFOgDcvhVgep',
+    ''
+        }
+2F7FF2A1-C46D-446D-9793-140BBA157DFB
+F66AB04A-A986-4D60-9016-D0D0C855322E
+9DA23C7A-E3BA-4025-9FC1-1BA63C32D364
+1978599；1978600
+2
+0.00
+提交
+西乡
+科目二训练
+何道成
+2016-06-25 08:00-09:00
+60
