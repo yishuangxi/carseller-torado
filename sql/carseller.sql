@@ -26,6 +26,18 @@ CREATE TABLE `client` (
    PRIMARY KEY (`id`)
   )ENGINE=innodb  DEFAULT CHARSET=UTF8 AUTO_INCREMENT=1;
 
+-- 客户需要记录的历史信息：客户等级变更历史:一对多
+CREATE TABLE `client_level`(
+  `id` INT(10) NOT NULL AUTO_INCREMENT ,
+  `client_id` INT(10) NOT NULL,
+  `level` ENUM('A', 'B', 'C', 'D', 'E', 'F') COMMENT '用户等级',
+  `mark` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '备注',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY(`id`),
+  FOREIGN KEY f_key_1 (`client_id`) REFERENCES `client`(`id`)
+) ENGINE=innodb DEFAULT CHARACTER SET=UTF8 AUTO_INCREMENT=1;
+
 -- 用户-客户关系表：一个客户对应一个用户，一个用户对应多个客户
 CREATE TABLE `r_user_client`(
   `id` INT(10) NOT NULL AUTO_INCREMENT COMMENT '关系表id',
