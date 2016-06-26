@@ -8,8 +8,8 @@ CREATE TABLE `user` (
   `username` VARCHAR(20) NOT NULL COMMENT '用户名',
   `password` VARCHAR(20) NOT NULL,
   `phone` CHAR(11) NOT NULL UNIQUE ,
-  `sex` ENUM('男','女', '保密') NOT NULL DEFAULT '保密',
-  `status` ENUM('禁用', '激活') NOT NULL DEFAULT '激活',
+  `sex` ENUM('male','female', 'secret') NOT NULL DEFAULT 'secret',
+  `status` ENUM('disabled', 'enabled') NOT NULL DEFAULT 'enabled',
   `created_at` DATETIME NOT NULL DEFAULT NOW() COMMENT '创建时间',
   `updated_at` DATETIME NOT NULL DEFAULT NOW() COMMENT '更新时间',
   PRIMARY KEY  (`id`)
@@ -20,7 +20,7 @@ CREATE TABLE `client` (
    `id` INT(10) NOT NULL AUTO_INCREMENT COMMENT '客户ID',
    `clientname` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '客户名',
    `phone` CHAR(11) NOT NULL COMMENT '客户手机号码',
-   `sex` ENUM('男','女', '保密') NOT NULL DEFAULT '保密',
+   `sex` ENUM('male','female', 'secret') NOT NULL DEFAULT 'secret',
    `created_at` DATETIME NOT NULL DEFAULT NOW() COMMENT '创建时间',
    `updated_at` DATETIME NOT NULL DEFAULT NOW() COMMENT '更新时间',
    PRIMARY KEY (`id`)
@@ -74,15 +74,15 @@ CREATE TABLE `order`(
 
 
 -- 插入用户数据
-insert into user VALUES(NULL, 'user1', '111', '16666666661', '男', '激活', NOW(), NOW());
-insert into user VALUES(NULL, 'user2', '111', '16666666662', '女', '激活', NOW(), NOW());
-insert into user VALUES(NULL, 'user3', '111', '16666666663', '保密', '禁用', NOW(), NOW());
+insert into user VALUES(NULL, 'user1', '111', '16666666661', 'male', 'enabled', NOW(), NOW());
+insert into user VALUES(NULL, 'user2', '111', '16666666662', 'female', 'enabled', NOW(), NOW());
+insert into user VALUES(NULL, 'user3', '111', '16666666663', 'secret', 'disabled', NOW(), NOW());
 
 
 -- 插入客户数据
-insert into client VALUES (1, 'clientname1', '18888888881', '男', NOW(), NOW());
-insert into client VALUES (2, 'clientname2', '18888888882', '女', NOW(), NOW());
-insert into client VALUES (3, 'clientname3', '18888888883', '保密', NOW(), NOW());
+insert into client VALUES (1, 'clientname1', '18888888881', 'male', NOW(), NOW());
+insert into client VALUES (2, 'clientname2', '18888888882', 'female', NOW(), NOW());
+insert into client VALUES (3, 'clientname3', '18888888883', 'secret', NOW(), NOW());
 
 -- 插入client的level变更数据
 insert into r_client_level VALUES(NULL, 1, 'A', '备注1', NOW(), NOW());

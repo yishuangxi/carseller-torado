@@ -10,6 +10,9 @@ class BaseHandler(RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
 
+    def get_current_user(self):
+        return self.get_secure_cookie("__token")
+
 
 class BasePageHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -27,19 +30,13 @@ class BaseApiHandler(BaseHandler):
         self.user_model = UserModel()
         self.user_srv = UserService()
 
-    def json(self, data):
-        return json.loads(self.dumps(data))
-
-    def dumps(self, data):
-        return json.dumps(data, cls=JsonEncoder)
-
     def res_success(self, data='', msg=''):
         callback = self.get_argument('callback', False)
         if not callback:
             self.write({
-                'code': 0,
+                'code': 1,
                 'msg': msg,
-                'data': self.json(data)
+                'data': self.__json(data)
             })
         else:
             self.write("""
@@ -50,20 +47,20 @@ class BaseApiHandler(BaseHandler):
 
             }
 
-            """ % (callback, self.dumps(data)))
+            """ % (callback, self.__dumps(data)))
 
-    def res_error(self):
-        pass
-
-    def __json(self, data, code=0, msg=''):
+    def res_error(self, msg=''):
         self.write({
-            'code': code,
-            'msg': msg,
-            'data': data
+            'code': 0,
+            'msg': msg
         })
 
-    def __jsonp(self):
-        pass
+    def __json(self, data):
+        return json.loads(self.__dumps(data))
+
+    def __dumps(self, data):
+        return json.dumps(data, cls=JsonEncoder)
+
 
 class JsonEncoder(json.JSONEncoder):
     def default(self, o):
