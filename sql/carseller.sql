@@ -9,7 +9,7 @@ CREATE TABLE `user` (
   `password` VARCHAR(20) NOT NULL,
   `phone` CHAR(11) NOT NULL UNIQUE ,
   `sex` ENUM('男','女', '保密') NOT NULL DEFAULT '保密',
-  `status` INT(1) NOT NULL DEFAULT '0' COMMENT '1激活，0为禁用',
+  `status` ENUM('禁用', '激活') NOT NULL DEFAULT '激活',
   `created_at` DATETIME NOT NULL DEFAULT NOW() COMMENT '创建时间',
   `updated_at` DATETIME NOT NULL DEFAULT NOW() COMMENT '更新时间',
   PRIMARY KEY  (`id`)
@@ -71,6 +71,39 @@ CREATE TABLE `order`(
   FOREIGN KEY f_key_1 (`car_id`) REFERENCES `car`(`id`),
   FOREIGN KEY f_key_2 (`client_id`) REFERENCES `client`(`id`)
 ) ENGINE=innodb DEFAULT CHARSET=UTF8 AUTO_INCREMENT=1;
+
+
+-- 插入用户数据
+insert into user VALUES(NULL, 'user1', '111', '16666666661', '男', '激活', NOW(), NOW());
+insert into user VALUES(NULL, 'user2', '111', '16666666662', '女', '激活', NOW(), NOW());
+insert into user VALUES(NULL, 'user3', '111', '16666666663', '保密', '禁用', NOW(), NOW());
+
+
+-- 插入客户数据
+insert into client VALUES (1, 'clientname1', '18888888881', '男', NOW(), NOW());
+insert into client VALUES (2, 'clientname2', '18888888882', '女', NOW(), NOW());
+insert into client VALUES (3, 'clientname3', '18888888883', '保密', NOW(), NOW());
+
+-- 插入client的level变更数据
+insert into r_client_level VALUES(NULL, 1, 'A', '备注1', NOW(), NOW());
+insert into r_client_level VALUES(NULL, 1, 'B', '备注2', NOW(), NOW());
+insert into r_client_level VALUES(NULL, 1, 'F', '备注3', NOW(), NOW());
+insert into r_client_level VALUES(NULL, 2, 'A', '备注1', NOW(), NOW());
+insert into r_client_level VALUES(NULL, 2, 'C', '备注2', NOW(), NOW());
+insert into r_client_level VALUES(NULL, 3, 'F', '备注1', NOW(), NOW());
+
+-- 插入用户和客户关系数据
+insert into r_user_client VALUES (NULL, 1, 1);
+insert into r_user_client VALUES (NULL, 2, 2);
+insert into r_user_client VALUES (NULL, 3, 3);
+
+
+
+
+
+
+
+
 
 
 
