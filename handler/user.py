@@ -55,5 +55,6 @@ class LoginApiHandler(BaseApiHandler):
 
 class UserApiHandler(BaseApiHandler):
     @coroutine
-    def get(self):
-        pass
+    def get(self, user_id):
+        res = yield self.user_model.find_one_by_id(user_id)
+        self.res_success(res)

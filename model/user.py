@@ -5,7 +5,7 @@ from tornado.gen import coroutine, Return
 class UserModel(BaseModel):
     @coroutine
     def find_one_by_id(self, user_id):
-        user = yield self.get('select * from user where id=%s', user_id)
+        user = yield self.get('select id, username, phone, sex, status, created_at, updated_at from user where id=%s', user_id)
         raise Return(user)
 
     @coroutine
