@@ -10,6 +10,20 @@ class BaseModel(object):
     def __init__(self):
         super(BaseModel, self).__init__()
 
+    def get_filter_sql(self, *configs):
+        filter_sql_list = []
+        for config in configs:
+            (key, value, filter_type) = (config['key'], config['value'], config['filter_type'])
+            if not value:
+                continue
+            if filter_type == 'like':
+                filter_sql_list.append(key + ' like "%{0}%"'.format(value))
+            else:
+                filter_sql_list.append(key + filter_type +'"{0}"'.format(value))
+
+        return ' and '.join(filter_sql_list)
+
+
     @coroutine
     def __get_connection(self):
         conn = asynctorndb.Connection(host=mysql_settings.host, database=mysql_settings.database, user=mysql_settings.user, passwd=mysql_settings.passwd)

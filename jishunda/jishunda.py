@@ -133,7 +133,7 @@ if __name__ == '__main__':
     #下订单请求
     while 1:
         logging.debug('addOrder start =============')
-        addOrder(headers=headers, schedule=schedule)
+        addOrder(headers=headers, skedule=schedule)
         logging.debug('addOrder end =============')
 
 

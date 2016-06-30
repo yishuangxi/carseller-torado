@@ -3,7 +3,10 @@ from tornado.web import RequestHandler
 import json
 from datetime import datetime
 from datetime import date
+
+from model.car import CarModel
 from model.user import UserModel
+
 from service.user import UserService
 
 class BaseHandler(RequestHandler):
@@ -27,6 +30,7 @@ class BaseApiHandler(BaseHandler):
         self.float      = 'float'
         self.number     = 'number'
 
+        self.car_model = CarModel()
         self.user_model = UserModel()
         self.user_srv = UserService()
 
