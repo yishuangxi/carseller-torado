@@ -9,7 +9,7 @@ from tornado.gen import coroutine, Return
 #page handlers
 class CarDetailPageHandler(BasePageHandler):
     @coroutine
-    def get(self):
+    def get(self, car_id):
         self.render('pc/car/detail.html')
 
 class CarListPageHandler(BasePageHandler):
@@ -17,6 +17,9 @@ class CarListPageHandler(BasePageHandler):
     def get(self):
         self.render('pc/car/list.html')
 
+
+
+#api handlers
 class CarDetailApiHandler(BaseApiHandler):
     @coroutine
     def get(self, car_id):
