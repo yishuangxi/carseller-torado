@@ -17,7 +17,7 @@ class BaseModel(object):
             if not value:
                 continue
             if filter_type == 'like':
-                filter_sql_list.append(key + ' like "%{0}%"'.format(value))
+                filter_sql_list.append(key + ' like {0}'.format("%" + value + "%"))
             else:
                 filter_sql_list.append(key + filter_type +'"{0}"'.format(value))
 

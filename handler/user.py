@@ -5,19 +5,30 @@ sys.setdefaultencoding('utf8')
 
 from base import BasePageHandler, BaseApiHandler
 from tornado.gen import coroutine, Return
+from model.user import UserModel
+from service.user import UserService
+
+class BaseUserPageHandler(BasePageHandler):
+    pass
+
+class BaseUserApiHandler(BaseApiHandler):
+    def __init__(self, *args, **kwargs):
+        super(BaseApiHandler, self).__init__(*args, **kwargs)
+        self.user_model = UserModel()
+        self.user_service = UserService()
 
 #page handlers
-class RegisterPageHandler(BasePageHandler):
+class RegisterPageHandler(BaseUserPageHandler):
     @coroutine
     def get(self):
         self.render('pc/user/register.html')
 
-class LoginPageHandler(BasePageHandler):
+class LoginPageHandler(BaseUserPageHandler):
     @coroutine
     def get(self):
         self.render('pc/user/login.html')
 
-class UserPageHandler(BasePageHandler):
+class UserPageHandler(BaseUserPageHandler):
     @coroutine
     def get(self):
         user_id = 1
@@ -26,7 +37,7 @@ class UserPageHandler(BasePageHandler):
 
 
 #api handlers
-class RegisterApiHandler(BaseApiHandler):
+class RegisterApiHandler(BaseUserApiHandler):
     @coroutine
     def post(self):
         username = self.get_argument('username')
@@ -38,10 +49,10 @@ class RegisterApiHandler(BaseApiHandler):
         res = yield self.user_model.create(username, password, phone, sex)
         self.write(str(res))
 
-class PasswordApiHandler(BaseApiHandler):
+class PasswordApiHandler(BaseUserApiHandler):
     pass
 
-class LoginApiHandler(BaseApiHandler):
+class LoginApiHandler(BaseUserApiHandler):
     @coroutine
     def post(self):
         username = self.get_argument('username')
@@ -53,7 +64,7 @@ class LoginApiHandler(BaseApiHandler):
         else:
             self.res_error('用户名或密码错误')
 
-class UserApiHandler(BaseApiHandler):
+class UserApiHandler(BaseUserApiHandler):
     @coroutine
     def get(self, user_id):
         res = yield self.user_model.find_one_by_id(user_id)

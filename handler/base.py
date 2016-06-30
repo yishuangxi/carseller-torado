@@ -30,10 +30,6 @@ class BaseApiHandler(BaseHandler):
         self.float      = 'float'
         self.number     = 'number'
 
-        self.car_model = CarModel()
-        self.user_model = UserModel()
-        self.user_srv = UserService()
-
     def res_success(self, data='', msg=''):
         callback = self.get_argument('callback', False)
         if not callback:
