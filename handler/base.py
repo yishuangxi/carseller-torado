@@ -29,6 +29,22 @@ class BaseApiHandler(BaseHandler):
         self.int        = 'int',
         self.float      = 'float'
         self.number     = 'number'
+        self.types = {
+            'string': 'string',
+            'number': 'number',
+            'int': 'int',
+            'float': 'float',
+            'date': 'date'
+        }
+
+    def get_and_check_arguments(self, **config):
+        kwargs = {}
+        for item in config:
+            data_type = item.get('data_type')
+            value = item.value
+            key = item.key
+            if data_type in self.types and self.is_type(data_type):
+                pass
 
     def res_success(self, data='', msg=''):
         callback = self.get_argument('callback', False)

@@ -41,5 +41,13 @@ class CarDetailApiHandler(BaseCarApiHandler):
 class CarListApiHandler(BaseCarApiHandler):
     @coroutine
     def get(self, car_id):
-        res = yield self.car_model.find_one_by_id(car_id)
+        vin = self.get_argument('vin')
+        color = self.get_argument('color')
+        model = self.get_argument('model')
+        status = self.get_argument('status')
+        min_price = self.get_argument('min_price')
+        max_price = self.get_argument('max_price')
+        created_at = self.get_argument('created_at')
+
+        res = yield self.car_model.find(vin=vin, color=vin)
         self.res_success(res)
