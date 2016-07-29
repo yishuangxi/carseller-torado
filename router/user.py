@@ -12,5 +12,5 @@ Router = [
     (r'/api/login', LoginApiHandler),
     (r'/api/register', RegisterApiHandler),
     (r'/api/user/(\d+)', UserApiHandler),
-    (r'/api/password/reset', PasswordApiHandler)
+    (r'/api/password', PasswordApiHandler)
 ]

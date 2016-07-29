@@ -4,8 +4,8 @@ from handler.car import CarDetailPageHandler, CarListPageHandler, \
 
 Router = [
     #handler: car
-    (r'/car/detail/(\d+)', CarDetailPageHandler),
-    (r'/car/list', CarListPageHandler),
-    (r'/api/car/detail/(\d+)', CarDetailApiHandler),
+    (r'/car/(\d+)', CarDetailPageHandler),
+    (r'/car', CarListPageHandler),
+    (r'/api/car/(\d+)', CarDetailApiHandler),
     (r'/api/car/list', CarListApiHandler)
 ]

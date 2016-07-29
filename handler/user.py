@@ -50,7 +50,14 @@ class RegisterApiHandler(BaseUserApiHandler):
         self.write(str(res))
 
 class PasswordApiHandler(BaseUserApiHandler):
-    pass
+    @coroutine
+    def put(self):
+        old_password = self.get_argument('old_password')
+        new_password = self.get_argument('new_password')
+        username = ''
+        res = yield self.user_model.find_one_by_username_and_password(username, old_password)
+        if res:
+            self.res_error("")
 
 class LoginApiHandler(BaseUserApiHandler):
     @coroutine

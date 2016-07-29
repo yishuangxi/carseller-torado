@@ -55,7 +55,7 @@ CREATE TABLE `car` (
   `color` VARCHAR(20) NOT NULL DEFAULT '',
   `model` VARCHAR(20) NOT NULL COMMENT '车型号',
   `status` ENUM('sold', 'selling', 'onway') NOT NULL DEFAULT 'onway',
-  `price` FLOAT(10, 2) NOT NULL DEFAULT 0 COMMENT '汽车价格',
+  `price` INT NOT NULL DEFAULT 0 COMMENT '汽车价格',
   `created_at` DATETIME NOT NULL DEFAULT NOW(),
   `updated_at` DATETIME NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`)
@@ -98,9 +98,9 @@ insert into r_user_client VALUES (NULL, 2, 2);
 insert into r_user_client VALUES (NULL, 3, 3);
 
 -- 插入汽车数据
-insert into car values (NULL, 'vin1', 'color1', 'model1', 'sold', 188881.69, NOW(), NOW());
-insert into car values (NULL, 'vin2', 'color2', 'model2', 'selling', 188882.69, NOW(), NOW());
-insert into car values (NULL, 'vin3', 'color3', 'model3', 'onway', 188883.69, NOW(), NOW());
+insert into car values (NULL, 'vin1', 'color1', 'model1', 'sold', 18888100, NOW(), NOW());
+insert into car values (NULL, 'vin2', 'color2', 'model2', 'selling', 18888200, NOW(), NOW());
+insert into car values (NULL, 'vin3', 'color3', 'model3', 'onway', 18888300, NOW(), NOW());
 
 
 

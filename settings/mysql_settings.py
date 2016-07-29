@@ -3,4 +3,4 @@
 host='localhost'
 database='carseller'
 user='root'
-passwd='11111111'
+passwd='111111'
